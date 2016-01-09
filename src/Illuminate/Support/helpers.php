@@ -764,11 +764,22 @@ if (! function_exists('value')) {
      * Return the default value of the given value.
      *
      * @param  mixed  $value
+     * @param  mixed  $default
      * @return mixed
      */
-    function value($value)
+    function value($value, $default = null)
     {
-        return $value instanceof Closure ? $value() : $value;
+        $value = $value instanceof Closure ? $value() : $value;
+
+        if ($value !== null) {
+            return $value;
+        }
+
+        if ($default === null) {
+            return;
+        }
+
+        return value($default);
     }
 }
 
